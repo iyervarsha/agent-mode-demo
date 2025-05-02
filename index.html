@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Box Documentation Generator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Add html-docx-js library for Word document generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Microsoft Dev Box Documentation Generator</h1>
+            <p>Generate documentation for new Dev Box features that matches the Microsoft Dev Box documentation style</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <h2>Feature Specification Input</h2>
+                
+                <div class="input-options">
+                    <button id="form-input-btn" class="input-option-btn active">Form Input</button>
+                    <button id="spec-input-btn" class="input-option-btn">Direct Spec Input</button>
+                    <button id="screenshot-input-btn" class="input-option-btn">Screenshot Analysis</button>
+                </div>
+                
+                <form id="feature-form">
+                    <div class="form-group">
+                        <label for="feature-name">Feature Name:</label>
+                        <input type="text" id="feature-name" name="feature-name" placeholder="E.g. Dev Box Hibernation" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feature-category">Documentation Category:</label>
+                        <select id="feature-category" name="feature-category" required>
+                            <option value="" disabled selected>Select category</option>
+                            <option value="overview">Overview</option>
+                            <option value="deploy">Deploy</option>
+                            <option value="get-started">Get Started</option>
+                            <option value="cost-management">Dev Box Cost Management</option>
+                            <option value="secure-access">Provide Secure Access</option>
+                            <option value="custom-dev-boxes">Create Custom Dev Boxes</option>
+                            <option value="support">Support & Reference</option>
+                            <option value="new-category">Create New Category</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="new-category-group" style="display: none;">
+                        <label for="new-category-name">New Category Name:</label>
+                        <input type="text" id="new-category-name" name="new-category-name" placeholder="E.g. Dev Box Networking Features">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documentation-type">Documentation Type:</label>
+                        <select id="documentation-type" name="documentation-type" required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="overview">OVERVIEW</option>
+                            <option value="quickstart">QUICKSTART</option>
+                            <option value="how-to">HOW-TO GUIDE</option>
+                            <option value="reference">REFERENCE</option>
+                            <option value="sample">SAMPLE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feature-description">Feature Description:</label>
+                        <textarea id="feature-description" name="feature-description" rows="4" placeholder="Brief description of the feature and its purpose" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prerequisites">Prerequisites (if any):</label>
+                        <textarea id="prerequisites" name="prerequisites" rows="3" placeholder="List any prerequisites needed for this feature"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="configuration-steps">Configuration/Usage Steps:</label>
+                        <textarea id="configuration-steps" name="configuration-steps" rows="6" placeholder="Describe the step-by-step process to configure or use this feature" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="screenshots">Screenshot Descriptions (if any):</label>
+                        <textarea id="screenshots" name="screenshots" rows="3" placeholder="Describe any screenshots that would be helpful"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="best-practices">Best Practices:</label>
+                        <textarea id="best-practices" name="best-practices" rows="3" placeholder="Any recommended best practices for this feature"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="limitations">Known Limitations (if any):</label>
+                        <textarea id="limitations" name="limitations" rows="3" placeholder="Any known limitations or restrictions"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" id="generate-btn">Generate Documentation</button>
+                    </div>
+                </form>
+                
+                <!-- Direct Spec Input Form -->
+                <form id="spec-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="feature-name-spec">Feature Name:</label>
+                        <input type="text" id="feature-name-spec" name="feature-name-spec" placeholder="E.g. Dev Box Hibernation" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="feature-category-spec">Documentation Category:</label>
+                        <select id="feature-category-spec" name="feature-category-spec" required>
+                            <option value="" disabled selected>Select category</option>
+                            <option value="overview">Overview</option>
+                            <option value="deploy">Deploy</option>
+                            <option value="get-started">Get Started</option>
+                            <option value="cost-management">Dev Box Cost Management</option>
+                            <option value="secure-access">Provide Secure Access</option>
+                            <option value="custom-dev-boxes">Create Custom Dev Boxes</option>
+                            <option value="support">Support & Reference</option>
+                            <option value="new-category">Create New Category</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="new-category-group-spec" style="display: none;">
+                        <label for="new-category-name-spec">New Category Name:</label>
+                        <input type="text" id="new-category-name-spec" name="new-category-name-spec" placeholder="E.g. Dev Box Networking Features">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="documentation-type-spec">Documentation Type:</label>
+                        <select id="documentation-type-spec" name="documentation-type-spec" required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="overview">OVERVIEW</option>
+                            <option value="quickstart">QUICKSTART</option>
+                            <option value="how-to">HOW-TO GUIDE</option>
+                            <option value="reference">REFERENCE</option>
+                            <option value="sample">SAMPLE</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="spec-text">Paste your specification here:</label>
+                        <textarea id="spec-text" name="spec-text" rows="15" placeholder="Copy and paste the text from your spec document here" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" id="generate-btn-spec">Generate Documentation</button>
+                    </div>
+                </form>
+
+                <!-- Screenshot Analysis Form -->
+                <form id="screenshot-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="feature-name-screenshot">Feature Name:</label>
+                        <input type="text" id="feature-name-screenshot" name="feature-name-screenshot" placeholder="E.g. Dev Box Hibernation" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="feature-category-screenshot">Documentation Category:</label>
+                        <select id="feature-category-screenshot" name="feature-category-screenshot" required>
+                            <option value="" disabled selected>Select category</option>
+                            <option value="overview">Overview</option>
+                            <option value="deploy">Deploy</option>
+                            <option value="get-started">Get Started</option>
+                            <option value="cost-management">Dev Box Cost Management</option>
+                            <option value="secure-access">Provide Secure Access</option>
+                            <option value="custom-dev-boxes">Create Custom Dev Boxes</option>
+                            <option value="support">Support & Reference</option>
+                            <option value="new-category">Create New Category</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="new-category-group-screenshot" style="display: none;">
+                        <label for="new-category-name-screenshot">New Category Name:</label>
+                        <input type="text" id="new-category-name-screenshot" name="new-category-name-screenshot" placeholder="E.g. Dev Box Networking Features">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="documentation-type-screenshot">Documentation Type:</label>
+                        <select id="documentation-type-screenshot" name="documentation-type-screenshot" required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="overview">OVERVIEW</option>
+                            <option value="quickstart">QUICKSTART</option>
+                            <option value="how-to">HOW-TO GUIDE</option>
+                            <option value="reference">REFERENCE</option>
+                            <option value="sample">SAMPLE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="screenshot-upload">Upload Screenshots:</label>
+                        <p class="form-help-text">Upload multiple screenshots by selecting files or dragging and dropping them below.</p>
+                        <div class="screenshot-dropzone" id="screenshot-dropzone">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">📷</div>
+                                <p>Drag and drop screenshots here</p>
+                                <p>or</p>
+                                <label for="screenshot-upload" class="file-select-btn">Select Files</label>
+                                <input type="file" id="screenshot-upload" name="screenshot-upload" accept="image/png, image/jpeg, image/gif" multiple>
+                            </div>
+                        </div>
+                        <div class="screenshot-controls" id="screenshot-controls" style="display: none;">
+                            <span id="screenshot-count">0 screenshots uploaded</span>
+                            <button type="button" id="clear-screenshots" class="btn-secondary">Clear All</button>
+                        </div>
+                        <div id="screenshot-preview" class="screenshot-preview-container"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="screenshot-description">Additional Context (optional):</label>
+                        <textarea id="screenshot-description" name="screenshot-description" rows="4" placeholder="Provide additional context about the screenshots and the feature they represent"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="button" id="generate-btn-screenshot">Generate Documentation from Screenshots</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="output-section" id="output-section" style="display: none;">
+                <h2>Generated Documentation</h2>
+                
+                <div class="output-controls">
+                    <button id="copy-raw-btn" title="Copy raw markdown text">Copy Markdown</button>
+                    <button id="copy-article-btn" title="Copy formatted article content">Copy Article</button>
+                    <button id="download-md-btn">Download as Markdown</button>
+                    <button id="back-btn">Back to Editor</button>
+                </div>
+
+                <div class="output-preview">
+                    <h3>Preview:</h3>
+                    <div id="preview-container"></div>
+                </div>
+
+                <div class="output-markdown">
+                    <h3>Markdown:</h3>
+                    <pre id="markdown-output"></pre>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Microsoft Dev Box Documentation Generator - Built for Microsoft Azure Documentation teams</p>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
